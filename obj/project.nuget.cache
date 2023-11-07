@@ -1,8 +1,17 @@
 {
   "version": 2,
-  "dgSpecHash": "tCvUJYX32PIr4hI23veOHf5LS8Jjqnmoq9IYMDDKQBJ3BoYoZKutMUVpgl52u4PzB+DfyOpEjqyHKqmIyaeppQ==",
+  "dgSpecHash": "GqnMf8/KZhLoqefLhuULRCKmTgpAwTKHD7mYzMuUohT2M87sPFKx8SohfBGmXx051zFvYnlgzOc/isByV3h65w==",
   "success": true,
   "projectFilePath": "/home/mariapori/TobySql/TobySql.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/home/mariapori/.nuget/packages/atksharp/3.24.24.95/atksharp.3.24.24.95.nupkg.sha512",
+    "/home/mariapori/.nuget/packages/cairosharp/3.24.24.95/cairosharp.3.24.24.95.nupkg.sha512",
+    "/home/mariapori/.nuget/packages/gdksharp/3.24.24.95/gdksharp.3.24.24.95.nupkg.sha512",
+    "/home/mariapori/.nuget/packages/giosharp/3.24.24.95/giosharp.3.24.24.95.nupkg.sha512",
+    "/home/mariapori/.nuget/packages/glibsharp/3.24.24.95/glibsharp.3.24.24.95.nupkg.sha512",
+    "/home/mariapori/.nuget/packages/gtksharp/3.24.24.95/gtksharp.3.24.24.95.nupkg.sha512",
+    "/home/mariapori/.nuget/packages/mysqlconnector/2.2.7/mysqlconnector.2.2.7.nupkg.sha512",
+    "/home/mariapori/.nuget/packages/pangosharp/3.24.24.95/pangosharp.3.24.24.95.nupkg.sha512"
+  ],
   "logs": []
 }
