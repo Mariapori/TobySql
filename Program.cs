@@ -45,10 +45,6 @@ class Program
 
                 if (connection.State == System.Data.ConnectionState.Open)
                 {
-                    // Show a message dialog on successful connection
-                    ShowMessageDialog(window, "Connected!", MessageType.Info);
-
-                    // Close the message dialog, hide the main window, and open the database form
                     window.Hide();
                     await OpenDatabaseForm(connection);
                 }
@@ -92,7 +88,7 @@ class Program
     static void ShowMessageDialog(Window parent, string message, MessageType messageType)
     {
         var messageDialog = new MessageDialog(parent, DialogFlags.Modal, messageType, ButtonsType.Ok, message);
-        messageDialog.ButtonPressEvent += (s, e) =>
+        messageDialog.ButtonPressEvent += delegate
         {
             messageDialog.Destroy();
         };
@@ -117,7 +113,7 @@ class Program
 
         var databaseCheckboxes = new List<CheckButton>();
         var queryText = CreateEntry("Enter SQL Query");
-        vbox.Add(databaseLabel);
+        
         vbox.Add(queryText); // Adding a placeholder entry for SQL Query
 
         var runQueryBtn = new Button();
@@ -138,14 +134,11 @@ class Program
             {
                 foreach (var dbName in selectedDatabases)
                 {
-                    using (var command = new MySqlCommand(sqlQuery,connection))
-                    {
-                        command.Parameters.AddWithValue("@dbname", dbName);
-                        using (var reader = await command.ExecuteReaderAsync())
-                        {
-                            // Process the query results as needed
-                        }
-                    }
+                    await connection.ChangeDatabaseAsync(dbName);
+                    using(var command = connection.CreateCommand()){
+                        command.CommandText = sqlQuery;
+                        await command.ExecuteNonQueryAsync();
+                    };
                 }
 
                 // Show a success message
@@ -156,6 +149,7 @@ class Program
                 // Show an error message dialog on query execution failure
                 ShowMessageDialog(databaseWindow, ex.Message, MessageType.Error);
             }
+            vbox.Add(databaseLabel);
             await RefreshCheckboxList(connection, vbox, databaseCheckboxes);
         };
 
