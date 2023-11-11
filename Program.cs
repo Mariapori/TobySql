@@ -124,6 +124,12 @@ class Program
                 .Select(checkbox => checkbox.Label)
                 .ToList();
 
+            if (!selectedDatabases.Any())
+            {
+                ShowMessageDialog(databaseWindow, "No databases selected.", MessageType.Warning);
+                return;
+            }
+
             // Get the SQL query from the textbox
             var sqlQuery = queryText.Text;
 
