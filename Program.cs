@@ -109,8 +109,6 @@ class Program
 
         var vbox = new VBox();
 
-        var databaseLabel = new Label("Select Databases:");
-
         var databaseCheckboxes = new List<CheckButton>();
         var queryText = CreateEntry("Enter SQL Query");
         
@@ -149,7 +147,6 @@ class Program
                 // Show an error message dialog on query execution failure
                 ShowMessageDialog(databaseWindow, ex.Message, MessageType.Error);
             }
-            vbox.Add(databaseLabel);
             await RefreshCheckboxList(connection, vbox, databaseCheckboxes);
         };
 
@@ -171,7 +168,8 @@ class Program
             vbox.Remove(checkbox);
         }
         databaseCheckboxes.Clear();
-
+        var databaseLabel = new Label("Select Databases:");
+        vbox.Add(databaseLabel);
         // Populate the checkbox list with updated information
         using (var command = new MySqlCommand("SELECT schema_name FROM information_schema.schemata", connection))
         using (var reader = await command.ExecuteReaderAsync())
