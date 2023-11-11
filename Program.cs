@@ -147,6 +147,7 @@ class Program
                 // Show an error message dialog on query execution failure
                 ShowMessageDialog(databaseWindow, ex.Message, MessageType.Error);
             }
+
             await RefreshCheckboxList(connection, vbox, databaseCheckboxes);
         };
 
@@ -155,6 +156,8 @@ class Program
         databaseWindow.Add(vbox);
         databaseWindow.SetDefaultSize(400, 300);
         databaseWindow.ShowAll();
+        var databaseLabel = new Label("Select Databases:");
+        vbox.Add(databaseLabel);
 
         // Initial population of the checkbox list
         await RefreshCheckboxList(connection, vbox, databaseCheckboxes);
@@ -168,8 +171,6 @@ class Program
             vbox.Remove(checkbox);
         }
         databaseCheckboxes.Clear();
-        var databaseLabel = new Label("Select Databases:");
-        vbox.Add(databaseLabel);
         // Populate the checkbox list with updated information
         using (var command = new MySqlCommand("SELECT schema_name FROM information_schema.schemata", connection))
         using (var reader = await command.ExecuteReaderAsync())
