@@ -116,13 +116,46 @@ class Program
         var databaseLabel = new Label("Select Databases:");
 
         var databaseCheckboxes = new List<CheckButton>();
+        var queryText = CreateEntry("Enter SQL Query");
         vbox.Add(databaseLabel);
-        vbox.Add(CreateEntry("Enter SQL Query")); // Adding a placeholder entry for SQL Query
+        vbox.Add(queryText); // Adding a placeholder entry for SQL Query
 
         var runQueryBtn = new Button();
         runQueryBtn.Label = "Run Query";
         runQueryBtn.Clicked += async delegate
         {
+            // Get selected databases
+            var selectedDatabases = databaseCheckboxes
+                .Where(checkbox => checkbox.Active)
+                .Select(checkbox => checkbox.Label)
+                .ToList();
+
+            // Get the SQL query from the textbox
+            var sqlQuery = queryText.Text;
+
+            // Execute the SQL query on selected databases
+            try
+            {
+                foreach (var dbName in selectedDatabases)
+                {
+                    using (var command = new MySqlCommand(sqlQuery,connection))
+                    {
+                        command.Parameters.AddWithValue("@dbname", dbName);
+                        using (var reader = await command.ExecuteReaderAsync())
+                        {
+                            // Process the query results as needed
+                        }
+                    }
+                }
+
+                // Show a success message
+                ShowMessageDialog(databaseWindow, "Query executed successfully!", MessageType.Info);
+            }
+            catch (Exception ex)
+            {
+                // Show an error message dialog on query execution failure
+                ShowMessageDialog(databaseWindow, ex.Message, MessageType.Error);
+            }
             await RefreshCheckboxList(connection, vbox, databaseCheckboxes);
         };
 
